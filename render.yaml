@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: clipfarm-poster
+    runtime: python
+    plan: free
+    rootDir: tiktok-app
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: TIKTOK_CLIENT_KEY
+        sync: false
+      - key: TIKTOK_CLIENT_SECRET
+        sync: false
+      - key: TIKTOK_REDIRECT_URI
+        sync: false
