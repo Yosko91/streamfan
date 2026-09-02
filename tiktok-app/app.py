@@ -72,6 +72,13 @@ code{background:#eee;padding:2px 6px;border-radius:4px;font-size:14px}
 """
 
 
+@app.route("/tiktokyB8uopVKkZIBGhYaAF0lQjK1VTOLiK8n.txt")
+def tiktok_site_verification():
+    # Proves ownership of this domain to TikTok's app review -- content and
+    # filename must match exactly what the dashboard's verification step issued.
+    return "tiktok-developers-site-verification=yB8uopVKkZIBGhYaAF0lQjK1VTOLiK8n", 200, {"Content-Type": "text/plain"}
+
+
 @app.route("/")
 def home():
     return render_template_string(
