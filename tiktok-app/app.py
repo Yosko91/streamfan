@@ -16,11 +16,11 @@ from urllib.parse import urlencode
 import requests
 from flask import Flask, abort, redirect, render_template, request, session, url_for
 
-CLIENT_KEY = os.environ.get("TIKTOK_CLIENT_KEY", "")
-CLIENT_SECRET = os.environ.get("TIKTOK_CLIENT_SECRET", "")
+CLIENT_KEY = os.environ.get("TIKTOK_CLIENT_KEY", "").strip()
+CLIENT_SECRET = os.environ.get("TIKTOK_CLIENT_SECRET", "").strip()
 # Not set until the real Render URL is known -- must not crash the app at
 # startup (that would fail the whole deploy) even before it's filled in.
-REDIRECT_URI = os.environ.get("TIKTOK_REDIRECT_URI", "")
+REDIRECT_URI = os.environ.get("TIKTOK_REDIRECT_URI", "").strip()
 
 AUTHORIZE_URL = "https://www.tiktok.com/v2/auth/authorize/"
 TOKEN_URL = "https://open.tiktokapis.com/v2/oauth/token/"
