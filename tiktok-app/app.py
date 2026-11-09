@@ -14,7 +14,7 @@ import secrets
 from urllib.parse import urlencode
 
 import requests
-from flask import Flask, redirect, render_template, request, session, url_for
+from flask import Flask, abort, redirect, render_template, request, session, url_for
 
 CLIENT_KEY = os.environ.get("TIKTOK_CLIENT_KEY", "")
 CLIENT_SECRET = os.environ.get("TIKTOK_CLIENT_SECRET", "")
@@ -34,11 +34,20 @@ app.config.update(
     SESSION_COOKIE_SECURE=bool(os.environ.get("RENDER")),  # HTTPS only on Render
 )
 
-@app.route("/tiktokyB8uopVKkZIBGhYaAF0lQjK1VTOLiK8n.txt")
-def tiktok_site_verification():
-    # Proves ownership of this domain to TikTok's app review -- content and
-    # filename must match exactly what the dashboard's verification step issued.
-    return "tiktok-developers-site-verification=yB8uopVKkZIBGhYaAF0lQjK1VTOLiK8n", 200, {"Content-Type": "text/plain"}
+# TikTok site-verification tokens (one per verified URL prefix). Each token is
+# served at /tiktok<token>.txt with the exact content the dashboard expects.
+TIKTOK_VERIFICATION_TOKENS = {
+    "yB8uopVKkZIBGhYaAF0lQjK1VTOLiK8n",  # clipfarm-poster.onrender.com (old service)
+    "5h5Ni8fahtYiwHjGD1flyBP8H1kBZEMJ",  # streamfan.onrender.com
+}
+
+
+@app.route("/tiktok<token>.txt")
+def tiktok_site_verification(token):
+    # Proves ownership of this domain to TikTok's app review.
+    if token not in TIKTOK_VERIFICATION_TOKENS:
+        abort(404)
+    return f"tiktok-developers-site-verification={token}", 200, {"Content-Type": "text/plain"}
 
 
 @app.route("/")
