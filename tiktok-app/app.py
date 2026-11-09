@@ -38,7 +38,8 @@ app.config.update(
 # served at /tiktok<token>.txt with the exact content the dashboard expects.
 TIKTOK_VERIFICATION_TOKENS = {
     "yB8uopVKkZIBGhYaAF0lQjK1VTOLiK8n",  # clipfarm-poster.onrender.com (old service)
-    "5h5Ni8fahtYiwHjGD1flyBP8H1kBZEMJ",  # streamfan.onrender.com
+    "5h5Ni8fahtYiwHjGD1flyBP8H1kBZEMJ",  # streamfan.onrender.com (production)
+    "M6YzcK4Y9m2ntjJjf4Q9q6bOBL0SXLZA",  # streamfan.onrender.com (sandbox)
 }
 
 
@@ -139,7 +140,7 @@ def post_video():
 
     # A real clip produced by the actual pipeline this app posts for --
     # reviewers see the genuine end-to-end flow, not a generic stand-in.
-    video_url = "https://yosko91.github.io/streamfan/clips/short_01_final.mp4"
+    video_url = "https://streamfan.onrender.com/static/clips/short_01_final.mp4"
 
     init = requests.post(
         POST_INIT_URL,
