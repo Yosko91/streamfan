@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Streamfan{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <h1>Turn stream highlights into <span class="accent">TikTok clips</span></h1>
+  <p class="lead">Streamfan finds the best moments of long-form videos and streams, edits them into short vertical clips with captions, and publishes them to TikTok through TikTok's own official tools.</p>
+</section>
+
+<h2 id="how-it-works">How it works</h2>
+<div class="grid">
+  <div class="card">
+    <span class="num">1</span>
+    <h3>Find the moments</h3>
+    <p>Long-form video is analysed to pick the highlights that match a campaign's brief.</p>
+  </div>
+  <div class="card">
+    <span class="num">2</span>
+    <h3>Edit the clips</h3>
+    <p>Each highlight is cut into a vertical short with captions, ready to publish.</p>
+  </div>
+  <div class="card">
+    <span class="num">3</span>
+    <h3>Publish to TikTok</h3>
+    <p>The account owner connects with TikTok Login Kit, and clips are sent with the Content Posting API.</p>
+  </div>
+</div>
+
+<h2>What Streamfan is for</h2>
+<p>Streamfan is a publishing tool for creators and clip channels. It does not have its own accounts, passwords or social features: you sign in on TikTok's own page, and Streamfan only receives the access that TikTok grants after you approve it.</p>
+<ul>
+  <li>Publishing short clips to the TikTok account that connected, and only to that account.</li>
+  <li>Using the clips the account owner chose to produce &mdash; nothing is posted without that account being connected first.</li>
+  <li>Respecting TikTok's visibility rules: until an app is audited by TikTok, posts stay private to the creator.</li>
+</ul>
+
+<h2 id="data">Your data and permissions</h2>
+<p>Streamfan asks TikTok for the minimum it needs. You can read the full details in our <a href="{{ url_for('privacy') }}">Privacy Policy</a>.</p>
+<table class="perm">
+  <thead><tr><th>TikTok product / scope</th><th>Why Streamfan uses it</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Login Kit</strong> &middot; <code>user.info.basic</code></td><td>Identifies the TikTok account that connects (its open ID and public profile name).</td></tr>
+    <tr><td><strong>Content Posting API</strong> &middot; <code>video.publish</code></td><td>Sends the produced clip to the connected account so it can be published there.</td></tr>
+  </tbody>
+</table>
+<p>Streamfan never sees your TikTok password, and you can remove its access at any time from your TikTok app permissions.</p>
+
+<section class="connect" id="connect">
+  <h2>Connect a TikTok account</h2>
+  {% if not access_token %}
+    <p>Sign in with TikTok to authorise Streamfan. You will be taken to TikTok's own login page and sent back here afterwards.</p>
+    <a class="btn" href="{{ url_for('login') }}">Log in with TikTok</a>
+  {% else %}
+    <p>Connected &mdash; open ID: <code>{{ open_id }}</code></p>
+    <form method="post" action="{{ url_for('post_video') }}">
+      <button class="btn" type="submit">Post test clip</button>
+    </form>
+  {% endif %}
+  {% if message %}<div class="msg">{{ message }}</div>{% endif %}
+</section>
+
+<h2 id="contact">Contact</h2>
+<p>Questions, data requests or feedback: <a href="mailto:fanofstreams@gmail.com">fanofstreams@gmail.com</a>.</p>
+
+{% endblock %}

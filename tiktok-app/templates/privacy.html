@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Privacy Policy | Streamfan{% endblock %}
+{% block content %}
+
+<h1>Privacy Policy</h1>
+<p class="updated">Last updated: November 9, 2026</p>
+
+<p>This policy explains what information Streamfan ("Streamfan", "we", "us") handles when you connect a TikTok account to the Streamfan website, why we handle it, and the choices you have. Streamfan is operated by an individual developer based in France.</p>
+
+<h2>1. Information we receive</h2>
+<p>When you click "Log in with TikTok", you sign in on TikTok's own page. After you approve the request, TikTok gives Streamfan:</p>
+<ul>
+  <li>your TikTok <strong>open ID</strong>, a unique identifier for your account in our app;</li>
+  <li>basic public profile information made available by the <code>user.info.basic</code> scope (for example your display name and avatar);</li>
+  <li>an <strong>access token</strong> that lets Streamfan act on your account within the permissions you granted.</li>
+</ul>
+<p>We never receive your TikTok password, and we do not ask you for any other personal information on this website.</p>
+
+<h2>2. How we use it</h2>
+<ul>
+  <li>To identify the account that is connected to the website.</li>
+  <li>To publish to your TikTok account the video clips you chose to send, using TikTok's Content Posting API (<code>video.publish</code> scope).</li>
+</ul>
+<p>We do not use this information for advertising, profiling, or automated decisions about you, and we do not sell it or share it with third parties.</p>
+
+<h2>3. Storage and retention</h2>
+<p>Your access token and open ID are kept only in a temporary session cookie in your browser, for as long as your session lasts. We do not store them in a database and we do not keep a copy of your TikTok profile. Closing your browser or using a different browser ends the session, and you will need to connect again.</p>
+<p>Videos that you publish through Streamfan are stored by TikTok according to TikTok's own terms and privacy policy, not by us.</p>
+
+<h2>4. Cookies</h2>
+<p>Streamfan uses a single strictly necessary session cookie to keep you connected between the TikTok login and this page. We do not use advertising cookies, analytics or tracking tools.</p>
+
+<h2>5. Sharing</h2>
+<p>The only service we exchange data with is TikTok, to carry out the login and publishing you request. TikTok's handling of your data is covered by <a href="https://www.tiktok.com/legal/page/global/privacy-policy/en" rel="noopener" target="_blank">TikTok's Privacy Policy</a>. Our hosting provider processes web requests on our behalf in order to serve this website.</p>
+
+<h2>6. Your rights and choices</h2>
+<ul>
+  <li><strong>Revoke access.</strong> You can remove Streamfan's access to your account at any time from the app permissions in your TikTok account settings.</li>
+  <li><strong>Your data rights.</strong> If you are in the European Economic Area or the UK, you have the right to access, correct, delete, restrict or object to the processing of your personal data, and to lodge a complaint with your local data protection authority (in France, the CNIL).</li>
+  <li><strong>Ask us.</strong> Write to the address below for any request. Because we do not keep your data beyond your session, there is generally nothing further to delete, but we will confirm this to you.</li>
+</ul>
+
+<h2>7. Children</h2>
+<p>Streamfan is not directed at children, and we do not knowingly collect information from anyone under 16. If you believe a child has used the service, contact us and we will act on it.</p>
+
+<h2>8. Security</h2>
+<p>All traffic with this website goes over HTTPS, and the session cookie is protected against access by scripts. No system is perfectly secure, but we limit what we receive to what is needed.</p>
+
+<h2>9. Changes</h2>
+<p>If we change this policy, we will update the date at the top of this page. Significant changes will be shown on the home page.</p>
+
+<h2>10. Contact</h2>
+<p>Streamfan &mdash; France<br>Email: <a href="mailto:fanofstreams@gmail.com">fanofstreams@gmail.com</a></p>
+
+{% endblock %}

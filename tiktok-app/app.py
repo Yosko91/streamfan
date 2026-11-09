@@ -1,4 +1,4 @@
-"""Clipfarm Poster -- public deployment.
+"""Streamfan -- public deployment.
 
 Same real TikTok Login Kit + Content Posting API flow as the local demo,
 adapted to run on a real host (Render) instead of localhost:
@@ -14,7 +14,7 @@ import secrets
 from urllib.parse import urlencode
 
 import requests
-from flask import Flask, redirect, render_template_string, request, session
+from flask import Flask, redirect, render_template, request, session, url_for
 
 CLIENT_KEY = os.environ.get("TIKTOK_CLIENT_KEY", "")
 CLIENT_SECRET = os.environ.get("TIKTOK_CLIENT_SECRET", "")
@@ -27,50 +27,12 @@ TOKEN_URL = "https://open.tiktokapis.com/v2/oauth/token/"
 POST_INIT_URL = "https://open.tiktokapis.com/v2/post/publish/video/init/"
 
 app = Flask(__name__)
-app.secret_key = secrets.token_hex(16)
-
-PAGE = """
-<!doctype html><html><head><title>Clipfarm Poster</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body{font-family:system-ui,sans-serif;max-width:680px;margin:0 auto;padding:48px 24px;color:#161823;line-height:1.55}
-h1{margin-bottom:4px}
-.tag{color:#666;margin-top:0}
-.card{background:#f7f7f8;border-radius:12px;padding:20px 24px;margin:24px 0}
-.step{display:flex;gap:12px;margin-bottom:14px}
-.step b{flex:none;width:22px}
-a.btn,button{display:inline-block;padding:13px 26px;background:#000;color:#fff;
-text-decoration:none;border-radius:8px;font-size:16px;border:none;cursor:pointer;margin-top:8px}
-.msg{margin-top:20px;padding:12px 16px;border-radius:8px;background:#eef7ee}
-code{background:#eee;padding:2px 6px;border-radius:4px;font-size:14px}
-</style></head><body>
-
-<h1>Clipfarm Poster</h1>
-<p class="tag">Publishes short clips to TikTok on behalf of the account that connects below.</p>
-
-<div class="card">
-  <p><strong>What this does:</strong> a clipping tool downloads long-form video, an AI step
-  picks the highlight moments that fit a campaign's brief, edits them into vertical clips
-  with captions, then this page hands off to TikTok's own login so the connecting account
-  can publish the result directly through TikTok's Content Posting API -- no separate
-  account system, no password of ours involved.</p>
-  <div class="step"><b>1.</b> Click "Log in with TikTok" below.</div>
-  <div class="step"><b>2.</b> Authenticate with your own TikTok account, on TikTok's own page.</div>
-  <div class="step"><b>3.</b> Once connected, click "Post test clip" to publish a short video
-  through the Content Posting API (sandbox visibility until this app is audited).</div>
-</div>
-
-{% if not access_token %}
-  <a class="btn" href="/login">Log in with TikTok</a>
-{% else %}
-  <p>Connected -- open_id: <code>{{ open_id }}</code></p>
-  <form method="post" action="/post"><button type="submit">Post test clip</button></form>
-{% endif %}
-{% if message %}<div class="msg">{{ message }}</div>{% endif %}
-
-</body></html>
-"""
-
+app.secret_key = os.environ.get("SECRET_KEY") or secrets.token_hex(16)
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=bool(os.environ.get("RENDER")),  # HTTPS only on Render
+)
 
 @app.route("/tiktokyB8uopVKkZIBGhYaAF0lQjK1VTOLiK8n.txt")
 def tiktok_site_verification():
@@ -81,12 +43,41 @@ def tiktok_site_verification():
 
 @app.route("/")
 def home():
-    return render_template_string(
-        PAGE,
+    return render_template(
+        "home.html",
         access_token=session.get("access_token"),
         open_id=session.get("open_id"),
         message=session.pop("message", None),
     )
+
+
+@app.route("/privacy-policy")
+def privacy():
+    return render_template("privacy.html")
+
+
+@app.route("/terms-of-service")
+def terms():
+    return render_template("terms.html")
+
+
+# Old / alternative addresses keep working and point at the canonical pages.
+@app.route("/privacy")
+@app.route("/privacy.html")
+def privacy_alias():
+    return redirect(url_for("privacy"), code=301)
+
+
+@app.route("/terms")
+@app.route("/tos")
+@app.route("/tos.html")
+def terms_alias():
+    return redirect(url_for("terms"), code=301)
+
+
+@app.route("/favicon.ico")
+def favicon():
+    return redirect(url_for("static", filename="favicon.ico"), code=301)
 
 
 @app.route("/login")
@@ -145,7 +136,7 @@ def post_video():
         POST_INIT_URL,
         headers={"Authorization": f"Bearer {access_token}", "Content-Type": "application/json; charset=UTF-8"},
         json={
-            "post_info": {"title": "Clipfarm Poster -- review test post", "privacy_level": "SELF_ONLY", "is_aigc": False},
+            "post_info": {"title": "Streamfan -- review test post", "privacy_level": "SELF_ONLY", "is_aigc": False},
             "source_info": {"source": "PULL_FROM_URL", "video_url": video_url},
         },
         timeout=30,

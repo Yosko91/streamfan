@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Streamfan{% endblock %}</title>
+  <meta name="description" content="Streamfan publishes short stream highlight clips to TikTok through TikTok's official Login Kit and Content Posting API.">
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='icon.png') }}" alt="Streamfan logo" width="44" height="44">
+        <span>Streamfan</span>
+      </a>
+      <nav aria-label="Main">
+        <a href="{{ url_for('home') }}#how-it-works">How it works</a>
+        <a href="{{ url_for('home') }}#data">Your data</a>
+        <a href="{{ url_for('home') }}#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 Streamfan</span>
+      <span>
+        <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+        <a href="{{ url_for('terms') }}">Terms of Service</a>
+      </span>
+    </div>
+  </footer>
+</body>
+</html>
